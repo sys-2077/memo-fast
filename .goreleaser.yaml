@@ -1,0 +1,55 @@
+version: 2
+
+project_name: memo-fast
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: memo-fast
+    main: ./cmd/memo-fast
+    binary: memo-fast
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/codexor/memo-fast/internal/version.Version={{.Version}}
+      - -X github.com/codexor/memo-fast/internal/version.Commit={{.ShortCommit}}
+      - -X github.com/codexor/memo-fast/internal/version.BuildDate={{.Date}}
+
+archives:
+  - id: default
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    name_template: "memo-fast-{{ .Os }}-{{ .Arch }}"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^chore:"
+      - "^test:"
+
+release:
+  github:
+    owner: sys-2077
+    name: memo-fast
+  draft: false
+  prerelease: auto
+  name_template: "v{{.Version}}"

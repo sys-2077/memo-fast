@@ -1,0 +1,9 @@
+bin/
+CLAUDE.md
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
