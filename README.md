@@ -90,6 +90,7 @@ You bring your own storage. Configure one of these backends:
 | `PINECONE_INDEX` | No | Index name (default: `memo-fast`) |
 | `QDRANT_URL` | If Qdrant | Your Qdrant Cloud URL |
 | `QDRANT_API_KEY` | If Qdrant | Your API key |
+| `CHROMA_HOST` | If ChromaDB | Your ChromaDB host |
 
 ## Data processing
 
