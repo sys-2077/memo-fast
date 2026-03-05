@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/codexor/memo-fast/internal/config"
 	"github.com/spf13/cobra"
+	"github.com/sys-2077/memo-fast/internal/config"
 )
 
 var initCmd = &cobra.Command{

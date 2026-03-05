@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/codexor/memo-fast/internal/config"
+	"github.com/sys-2077/memo-fast/internal/config"
 )
 
 // FileEntry represents a discovered project file with its contents.

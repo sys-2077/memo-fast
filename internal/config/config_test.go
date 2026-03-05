@@ -15,10 +15,11 @@ func TestNormalizeCollectionName_FormatsProjectNames(t *testing.T) {
 		in   string
 		want string
 	}{
-		{name: "space", in: "my project", want: "memo_myproject"},
+		{name: "space", in: "my project", want: "memo_my_project"},
 		{name: "dash", in: "my-project", want: "memo_my_project"},
 		{name: "dot", in: "my.project", want: "memo_my_project"},
 		{name: "mixed case prefixed", in: "Memo_Foo", want: "memo_foo"},
+		{name: "special chars", in: "project@v2", want: "memo_projectv2"},
 	}
 
 	for _, tc := range tests {

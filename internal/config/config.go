@@ -79,7 +79,7 @@ func Save(path string, cfg *Config) error {
 // collection name: lowercase, replace - and . with _, prepend memo_.
 func NormalizeCollectionName(name string) string {
 	name = strings.ToLower(name)
-	re := regexp.MustCompile(`[-.]`)
+	re := regexp.MustCompile(`[-.\s]+`)
 	name = re.ReplaceAllString(name, "_")
 	// Remove any character that is not alphanumeric or underscore
 	clean := regexp.MustCompile(`[^a-z0-9_]`)

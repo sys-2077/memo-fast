@@ -55,13 +55,13 @@ For initial indexing and automatic updates, memo-fast includes a lightweight CLI
 
 ```bash
 # macOS (Apple Silicon)
-curl -fsSL https://github.com/codexor/memo-fast-product/releases/latest/download/memo-fast-darwin-arm64.tar.gz | tar xz -C /usr/local/bin
+curl -fsSL https://github.com/sys-2077/memo-fast/releases/latest/download/memo-fast-darwin-arm64.tar.gz | tar xz -C /usr/local/bin
 
 # macOS (Intel)
-curl -fsSL https://github.com/codexor/memo-fast-product/releases/latest/download/memo-fast-darwin-amd64.tar.gz | tar xz -C /usr/local/bin
+curl -fsSL https://github.com/sys-2077/memo-fast/releases/latest/download/memo-fast-darwin-amd64.tar.gz | tar xz -C /usr/local/bin
 
 # Linux
-curl -fsSL https://github.com/codexor/memo-fast-product/releases/latest/download/memo-fast-linux-amd64.tar.gz | tar xz -C /usr/local/bin
+curl -fsSL https://github.com/sys-2077/memo-fast/releases/latest/download/memo-fast-linux-amd64.tar.gz | tar xz -C /usr/local/bin
 
 # Windows
 # Download memo-fast-windows-amd64.zip from GitHub Releases and add to PATH

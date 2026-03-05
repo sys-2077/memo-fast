@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/codexor/memo-fast/internal/version"
 	"github.com/spf13/cobra"
+	"github.com/sys-2077/memo-fast/internal/version"
 )
 
 var (

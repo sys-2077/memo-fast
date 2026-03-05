@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/codexor/memo-fast/internal/config"
-	"github.com/codexor/memo-fast/internal/index"
 	"github.com/spf13/cobra"
+	"github.com/sys-2077/memo-fast/internal/config"
+	"github.com/sys-2077/memo-fast/internal/index"
 )
 
 var (

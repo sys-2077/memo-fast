@@ -1,4 +1,4 @@
-module github.com/codexor/memo-fast
+module github.com/sys-2077/memo-fast
 
 go 1.22
 
