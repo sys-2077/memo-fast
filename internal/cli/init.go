@@ -1,11 +1,9 @@
 package cli
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/sys-2077/memo-fast/internal/config"
@@ -13,7 +11,7 @@ import (
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Interactive config wizard",
+	Short: "Initialize project config",
 	RunE:  runInit,
 }
 
@@ -22,22 +20,21 @@ func init() {
 }
 
 func runInit(cmd *cobra.Command, args []string) error {
-	reader := bufio.NewReader(os.Stdin)
-
-	// 1. API Key (required - from MCPize dashboard)
-	apiKey := promptRequired(reader, "memo-fast API key (from https://mcpize.com/settings)")
-
-	// 2. Collection is derived from cwd basename (non-interactive)
 	cwd, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("getting working directory: %w", err)
 	}
+
 	collection := config.NormalizeCollectionName(filepath.Base(cwd))
+	apiURL := os.Getenv("MEMO_FAST_API_URL")
+	if apiURL == "" {
+		apiURL = "https://api.memo-fast.dev"
+	}
 
 	cfg := &config.Config{
 		API: config.APIConfig{
-			URL: "https://api.memo-fast.dev",
-			Key: apiKey,
+			URL: apiURL,
+			Key: "", // legacy field; token is read from ~/.mcpize/config.json
 		},
 		Collection: collection,
 		Index:      config.DefaultIndex(),
@@ -52,18 +49,6 @@ func runInit(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Printf("Configuration saved to %s\n", configPath)
+	fmt.Println("MCPize token is read from ~/.mcpize/config.json (run: npx mcpize login)")
 	return nil
-}
-
-// promptRequired shows a question and keeps asking until a non-empty value is given.
-func promptRequired(reader *bufio.Reader, question string) string {
-	for {
-		fmt.Printf("%s: ", question)
-		input, _ := reader.ReadString('\n')
-		input = strings.TrimSpace(input)
-		if input != "" {
-			return input
-		}
-		fmt.Println("  This field is required.")
-	}
 }

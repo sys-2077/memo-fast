@@ -124,7 +124,12 @@ func runIndex(cmd *cobra.Command, args []string) error {
 	fmt.Printf("Sending %d files, %d commits...\n", len(files), len(commits))
 	start := time.Now()
 
-	resp, err := index.Send(cfg.API.URL, cfg.API.Key, req)
+	apiKey, err := config.ResolveAPIKey(cfg.API.Key)
+	if err != nil {
+		return fmt.Errorf("resolving MCPize API key: %w", err)
+	}
+
+	resp, err := index.Send(cfg.API.URL, apiKey, req)
 	if err != nil {
 		return formatSendError(err)
 	}
@@ -157,7 +162,7 @@ func formatSendError(err error) error {
 	}
 	msg := err.Error()
 	if strings.Contains(msg, "status 401") || strings.Contains(msg, "status 403") {
-		return fmt.Errorf("authentication failed. Check your MCPize API key by running `memo-fast init`")
+		return fmt.Errorf("authentication failed. Check your MCPize key (`npx mcpize whoami`) and endpoint in .mcp/memo-fast/config.yaml")
 	}
 	return fmt.Errorf("sending index request: %w", err)
 }
