@@ -21,9 +21,9 @@ builds:
       - arm64
     ldflags:
       - -s -w
-      - -X github.com/codexor/memo-fast/internal/version.Version={{.Version}}
-      - -X github.com/codexor/memo-fast/internal/version.Commit={{.ShortCommit}}
-      - -X github.com/codexor/memo-fast/internal/version.BuildDate={{.Date}}
+      - -X github.com/sys-2077/memo-fast/internal/version.Version={{.Version}}
+      - -X github.com/sys-2077/memo-fast/internal/version.Commit={{.ShortCommit}}
+      - -X github.com/sys-2077/memo-fast/internal/version.BuildDate={{.Date}}
 
 archives:
   - id: default
