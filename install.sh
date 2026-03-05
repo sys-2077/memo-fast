@@ -7,7 +7,7 @@ set -e
 
 BINARY_NAME="memo-fast"
 INSTALL_DIR="/usr/local/bin"
-REPO="codexor/memo-fast-product"
+REPO="sys-2077/memo-fast"
 
 # --- helpers ---
 
