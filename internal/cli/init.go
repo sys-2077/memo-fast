@@ -24,22 +24,10 @@ func init() {
 func runInit(cmd *cobra.Command, args []string) error {
 	reader := bufio.NewReader(os.Stdin)
 
-	// 1. API URL
-	apiURL := prompt(reader, "memo-fast API URL", "https://api.memo-fast.dev")
+	// 1. API Key (required - from MCPize dashboard)
+	apiKey := promptRequired(reader, "memo-fast API key (from https://mcpize.com/settings)")
 
-	// 2. API Key (optional, server may not require it)
-	apiKey := prompt(reader, "API key (optional, press Enter to skip)", "")
-
-	// 3. Vector backend
-	backend := prompt(reader, "Vector backend (pinecone/qdrant)", "pinecone")
-
-	// 4. Qdrant/Pinecone URL (optional, server may have it via env)
-	qdrantURL := prompt(reader, "Vector DB URL (optional if server has credentials)", "")
-
-	// 5. API Key for vector DB (optional)
-	qdrantAPIKey := prompt(reader, "Vector DB API key (optional if server has credentials)", "")
-
-	// 6. Collection name (derived from cwd basename)
+	// 2. Collection name (derived from cwd basename)
 	cwd, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("getting working directory: %w", err)
@@ -49,14 +37,9 @@ func runInit(cmd *cobra.Command, args []string) error {
 
 	cfg := &config.Config{
 		API: config.APIConfig{
-			URL: apiURL,
+			URL: "https://api.memo-fast.dev",
 			Key: apiKey,
 		},
-		Qdrant: config.QdrantConfig{
-			URL:    qdrantURL,
-			APIKey: qdrantAPIKey,
-		},
-		Backend:    backend,
 		Collection: collection,
 		Index:      config.DefaultIndex(),
 		Commits: config.CommitsConfig{

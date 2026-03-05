@@ -109,11 +109,7 @@ func runIndex(cmd *cobra.Command, args []string) error {
 		Files:   filePayloads,
 		Commits: commitPayloads,
 		Config: index.ConfigPayload{
-			Backend:      cfg.Backend,
-			QdrantURL:    cfg.Qdrant.URL,
-			QdrantAPIKey: cfg.Qdrant.APIKey,
-			Collection:   cfg.Collection,
-			IndexName:    cfg.IndexName,
+			Collection: cfg.Collection,
 		},
 	}
 
@@ -129,7 +125,22 @@ func runIndex(cmd *cobra.Command, args []string) error {
 	fmt.Printf("Indexed %d files, %d commits (%d entities) in %.1fs\n",
 		resp.IndexedFiles, resp.IndexedCommits, resp.Entities, elapsed)
 
+	if err := reportServerErrors(resp.Errors); err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func reportServerErrors(errors []string) error {
+	if len(errors) == 0 {
+		return nil
+	}
+	fmt.Printf("[✗] Server reported %d indexing errors:\n", len(errors))
+	for _, errMsg := range errors {
+		fmt.Printf("  - %s\n", errMsg)
+	}
+	return fmt.Errorf("index completed with %d server-reported errors", len(errors))
 }
 
 func minLen(a, b int) int {

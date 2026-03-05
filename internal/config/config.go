@@ -13,24 +13,15 @@ import (
 // Config is the top-level configuration structure for memo-fast.
 type Config struct {
 	API        APIConfig     `yaml:"api"`
-	Qdrant     QdrantConfig  `yaml:"qdrant"`
-	Backend    string        `yaml:"backend,omitempty"`
 	Collection string        `yaml:"collection"`
-	IndexName  string        `yaml:"index_name,omitempty"`
 	Index      IndexConfig   `yaml:"index"`
 	Commits    CommitsConfig `yaml:"commits"`
 }
 
-// APIConfig holds the Cloud Run API connection settings.
+// APIConfig holds the MCPize API connection settings.
 type APIConfig struct {
 	URL string `yaml:"url"`
 	Key string `yaml:"key"`
-}
-
-// QdrantConfig holds the Qdrant vector database connection settings.
-type QdrantConfig struct {
-	URL    string `yaml:"url"`
-	APIKey string `yaml:"api_key"`
 }
 
 // IndexConfig controls which files are discovered during indexing.
@@ -85,7 +76,7 @@ func Save(path string, cfg *Config) error {
 }
 
 // NormalizeCollectionName converts a project directory name into a valid
-// Qdrant collection name: lowercase, replace - and . with _, prepend memo_.
+// collection name: lowercase, replace - and . with _, prepend memo_.
 func NormalizeCollectionName(name string) string {
 	name = strings.ToLower(name)
 	re := regexp.MustCompile(`[-.]`)
@@ -93,6 +84,9 @@ func NormalizeCollectionName(name string) string {
 	// Remove any character that is not alphanumeric or underscore
 	clean := regexp.MustCompile(`[^a-z0-9_]`)
 	name = clean.ReplaceAllString(name, "")
+	if strings.HasPrefix(name, "memo_") {
+		return name
+	}
 	return "memo_" + name
 }
 

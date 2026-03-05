@@ -31,20 +31,17 @@ type CommitPayload struct {
 	Files   []string `json:"files"`
 }
 
-// ConfigPayload carries the user's vector DB connection details.
+// ConfigPayload carries the collection name for indexing.
 type ConfigPayload struct {
-	Backend      string `json:"backend,omitempty"`
-	QdrantURL    string `json:"qdrant_url,omitempty"`
-	QdrantAPIKey string `json:"qdrant_api_key,omitempty"`
-	Collection   string `json:"collection"`
-	IndexName    string `json:"index_name,omitempty"`
+	Collection string `json:"collection"`
 }
 
 // IndexResponse is the response from the Cloud Run indexing API.
 type IndexResponse struct {
-	IndexedFiles   int `json:"indexed_files"`
-	IndexedCommits int `json:"indexed_commits"`
-	Entities       int `json:"entities"`
+	IndexedFiles   int      `json:"indexed_files"`
+	IndexedCommits int      `json:"indexed_commits"`
+	Entities       int      `json:"entities"`
+	Errors         []string `json:"errors"`
 }
 
 // Send posts the index request to the Cloud Run API and returns the response.
