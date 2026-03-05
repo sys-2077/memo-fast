@@ -76,7 +76,8 @@ memo-fast index --incremental   # Index only the last commit
 memo-fast hook install          # Auto-index on every git commit
 ```
 
-`memo-fast init` only asks for your MCPize API key and collection name.
+`memo-fast init` only asks for your MCPize API key.
+Collection is derived automatically from the current repository name.
 Vector DB credentials are configured in MCPize dashboard, not in the CLI.
 
 Once the hook is installed, your memory updates itself after every commit. No manual re-indexing needed.

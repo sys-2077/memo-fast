@@ -27,13 +27,12 @@ func runInit(cmd *cobra.Command, args []string) error {
 	// 1. API Key (required - from MCPize dashboard)
 	apiKey := promptRequired(reader, "memo-fast API key (from https://mcpize.com/settings)")
 
-	// 2. Collection name (derived from cwd basename)
+	// 2. Collection is derived from cwd basename (non-interactive)
 	cwd, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("getting working directory: %w", err)
 	}
-	defaultCollection := config.NormalizeCollectionName(filepath.Base(cwd))
-	collection := prompt(reader, "Collection name", defaultCollection)
+	collection := config.NormalizeCollectionName(filepath.Base(cwd))
 
 	cfg := &config.Config{
 		API: config.APIConfig{
@@ -54,17 +53,6 @@ func runInit(cmd *cobra.Command, args []string) error {
 
 	fmt.Printf("Configuration saved to %s\n", configPath)
 	return nil
-}
-
-// prompt shows a question with a default value and returns user input or default.
-func prompt(reader *bufio.Reader, question, defaultVal string) string {
-	fmt.Printf("%s [%s]: ", question, defaultVal)
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
-	if input == "" {
-		return defaultVal
-	}
-	return input
 }
 
 // promptRequired shows a question and keeps asking until a non-empty value is given.

@@ -2,6 +2,8 @@ package cli
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -31,6 +33,11 @@ func runIndex(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return fmt.Errorf("loading config: %w\nRun 'memo-fast init' to create a config file.", err)
 	}
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+	collectionName := config.NormalizeCollectionName(filepath.Base(cwd))
 
 	var files []index.FileEntry
 	var commits []index.CommitEntry
@@ -109,7 +116,7 @@ func runIndex(cmd *cobra.Command, args []string) error {
 		Files:   filePayloads,
 		Commits: commitPayloads,
 		Config: index.ConfigPayload{
-			Collection: cfg.Collection,
+			Collection: collectionName,
 		},
 	}
 
