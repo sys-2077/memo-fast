@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -125,7 +126,7 @@ func runIndex(cmd *cobra.Command, args []string) error {
 
 	resp, err := index.Send(cfg.API.URL, cfg.API.Key, req)
 	if err != nil {
-		return fmt.Errorf("sending index request: %w", err)
+		return formatSendError(err)
 	}
 
 	elapsed := time.Since(start).Seconds()
@@ -148,6 +149,17 @@ func reportServerErrors(errors []string) error {
 		fmt.Printf("  - %s\n", errMsg)
 	}
 	return fmt.Errorf("index completed with %d server-reported errors", len(errors))
+}
+
+func formatSendError(err error) error {
+	if err == nil {
+		return nil
+	}
+	msg := err.Error()
+	if strings.Contains(msg, "status 401") || strings.Contains(msg, "status 403") {
+		return fmt.Errorf("authentication failed. Check your MCPize API key by running `memo-fast init`")
+	}
+	return fmt.Errorf("sending index request: %w", err)
 }
 
 func minLen(a, b int) int {
